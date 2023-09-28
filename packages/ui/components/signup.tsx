@@ -3,8 +3,10 @@
 import { Typography, Card, TextField, Button } from "@mui/material"
 import { useState } from "react"
 
-export const Signup = () => {
-  const [usename, setUsername] = useState("")
+export const Signup = (props: {
+    onClick: (username: string, email: string, password: string) => void
+}) => {
+  const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -56,18 +58,9 @@ export const Signup = () => {
                 <Button
                     size={"large"}
                     variant="contained"
-                    // onClick={async() => {
-                    //     const response = await axios.post(`${BASE_URL}/admin/signup`, {
-                    //         username: email,
-                    //         password: password
-                    //     })
-                    //     let data = response.data;
-                    //     localStorage.setItem("token", data.token);
-                    //     // window.location = "/"
-                    //     setUser({userEmail: email, isLoading: false})
-                    //     navigate("/courses")
-                    // }}
-
+                    onClick={async() => {
+                        props.onClick(username, email, password);
+                    }}
                 > Signup</Button>
             </Card>
         </div>

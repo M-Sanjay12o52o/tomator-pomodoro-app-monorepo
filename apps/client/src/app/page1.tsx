@@ -2,7 +2,7 @@
 
 export default function Home() {
   const makeApiCall = async () => {
-    await fetch('/api/hello', {
+    await fetch('/api/example', {
       method: 'POST',
       body: JSON.stringify({ hello: 'world' }),
     })
