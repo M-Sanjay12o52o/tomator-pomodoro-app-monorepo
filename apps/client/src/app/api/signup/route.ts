@@ -12,16 +12,26 @@ const SECRET = "SECRET";
 //   name?: string;
 // }
 
+type Data = {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export async function POST(
-  req: Request,
-  res: Response,
+  request: Request,
+  response: Response,
 ) {
     console.log("handler called");
     await ensureDbConnected()
-    const { username, email, password } = await req.json();
+    const data: Data = await request.json(); 
+    console.log("data: ", data);
+
+    const { username, email, password } = data;
     const admin = await Admin.findOne({ username });
     if (admin) {
-      return new Response('Ok');
+      // return new Response('Ok');
+      return NextResponse.json({ email: " already exits" });
     } else {
         const obj = { username: username, email: email, password: password };
         const newAdmin = new Admin(obj);
