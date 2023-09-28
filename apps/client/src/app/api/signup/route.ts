@@ -3,30 +3,33 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Admin } from "db";
 import jwt from "jsonwebtoken";
 import { ensureDbConnected } from '@/lib/dbConnect';
+import { NextResponse } from 'next/server';
 const SECRET = "SECRET";
 
-type Data = {
-  token?: string;
-  message?: string;
-  name?: string;
-}
+// type Data = {
+//   token?: string;
+//   message?: string;
+//   name?: string;
+// }
 
 export async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  req: Request,
+  res: Response,
 ) {
     console.log("handler called");
     await ensureDbConnected()
-    const { username, password } = req.body;
+    const { username, email, password } = await req.json();
     const admin = await Admin.findOne({ username });
     if (admin) {
-        res.status(403).json({ message: 'Admin already exists' });
+      return new Response('Ok');
     } else {
-        const obj = { username: username, password: password };
+        const obj = { username: username, email: email, password: password };
         const newAdmin = new Admin(obj);
         newAdmin.save();
 
         const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Admin created successfully', token });
+        return NextResponse.json({ 
+          "message": 'Admin created successfully', "token: ": token
+         })
     }    
 }
