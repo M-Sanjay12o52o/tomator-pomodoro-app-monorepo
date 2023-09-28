@@ -2,12 +2,14 @@ import mongoose = require("mongoose");
 // Define mongoose schemas
 const userSchema = new mongoose.Schema({
     username: {type: String},
+    email: {type: String},
     password: String,
     purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }]
   });
   
 const adminSchema = new mongoose.Schema({
     username: String,
+    email: String,
     password: String
   });
   

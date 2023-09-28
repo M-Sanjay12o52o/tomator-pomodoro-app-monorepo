@@ -1,8 +1,14 @@
+'use client'
+
 import {Signup} from "ui";
 
 const SignupPage = () => {
   return <div>
-    <Signup />
+    <Signup onClick={(username, email, password) => {
+      alert(username);
+      alert(email);
+      alert(password);
+    }} />
   </div>
 } 
 
